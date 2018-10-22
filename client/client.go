@@ -585,6 +585,10 @@ func (client *Client) input() {
 	if err != nil && err != io.EOF && !closing {
 		log.Error("rpcx: client protocol error:", err)
 	}
+	
+	if client.ServerMessageChan != nil {
+         go client.handleServerRequest(nil)
+     }
 }
 
 func (client *Client) handleServerRequest(msg *protocol.Message) {
